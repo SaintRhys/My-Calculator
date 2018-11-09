@@ -22,93 +22,63 @@ namespace Calculator {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "1";
-            this.textBox1.Text += input;
+            Universal_Button_Click("1");
         }
 
         private void button2_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "2";
-            this.textBox1.Text += input;
+            Universal_Button_Click("2");
         }
 
         private void button3_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "3";
-            this.textBox1.Text += input;
+            Universal_Button_Click("3");
         }
 
         private void button4_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "4";
-            this.textBox1.Text += input;
+            Universal_Button_Click("4");
         }
 
         private void button5_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "5";
-            this.textBox1.Text += input;
+            Universal_Button_Click("5");
         }
 
         private void button6_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "6";
-            this.textBox1.Text += input;
+            Universal_Button_Click("6");
         }
 
         private void button7_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "7";
-            this.textBox1.Text += input;
+            Universal_Button_Click("7");
         }
 
         private void button8_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "8";
-            this.textBox1.Text += input;
+            Universal_Button_Click("8");
         }
 
         private void button9_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "9";
-            this.textBox1.Text += input;
+            Universal_Button_Click("9");
         }
 
         private void button0_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += "0";
-            this.textBox1.Text += input;
+            Universal_Button_Click("0");
         }
 
         private void plus_Click(object sender, EventArgs e) {
-            operand1 = input;
-            operation = '+';
-            input = string.Empty;
+            Operation_Button_Click("+");
         }
 
         private void minus_Click(object sender, EventArgs e) {
-            operand1 = input;
-            operation = '-';
-            input = string.Empty;
+            Operation_Button_Click("-");
         }
 
         private void multiply_Click(object sender, EventArgs e) {
-            operand1 = input;
-            operation = '*';
-            input = string.Empty;
+            Operation_Button_Click("*");
         }
 
         private void divide_Click(object sender, EventArgs e) {
-            operand1 = input;
-            operation = '/';
-            input = string.Empty;
+            Operation_Button_Click("/");
         }
 
         private void dot_Click(object sender, EventArgs e) {
-            this.textBox1.Text = "";
-            input += ".";
-            this.textBox1.Text += input;
+            Universal_Button_Click(".");
         }
 
         private void clear_Click(object sender, EventArgs e) {
@@ -118,6 +88,18 @@ namespace Calculator {
             this.operand2 = string.Empty;
         }
 
+        private void Operation_Button_Click(string oper){
+            operand1 = input;
+            operation = oper;
+            input = string.Empty;       
+        }
+        
+        private void Universal_Button_Click(string num){
+            this.textBox1.Text = "";
+            input += num;
+            this.textBox1.Text += input;
+        }
+        
         private void equals_Click(object sender, EventArgs e) {
             operand2 = input;
             double num1, num2;
@@ -138,7 +120,7 @@ namespace Calculator {
                     result = num1 / num2;
                     textBox1.Text = result.ToString();
                 } else {
-                    textBox1.Text = "DIV/Zerp!";
+                    textBox1.Text = "DIV/Zero!";
                 }
             }
         }
