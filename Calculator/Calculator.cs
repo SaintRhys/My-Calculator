@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,6 +19,7 @@ namespace Calculator {
             Console.WriteLine("Starting");
         }
 
+        #region buttons
         private void button1_Click(object sender, EventArgs e) {
             Universal_Button_Click("1");
         }
@@ -64,29 +60,34 @@ namespace Calculator {
             Universal_Button_Click("0");
         }
 
-        private void plus_Click(object sender, EventArgs e) {
+        private void buttonPlus_Click(object sender, EventArgs e) {
             Operation_Button_Click('+');
         }
 
-        private void minus_Click(object sender, EventArgs e) {
+        private void buttonMinus_Click(object sender, EventArgs e) {
             Operation_Button_Click('-');
         }
 
-        private void multiply_Click(object sender, EventArgs e) {
+        private void buttonMultiply_Click(object sender, EventArgs e) {
             Operation_Button_Click('*');
         }
 
-        private void divide_Click(object sender, EventArgs e) {
+        private void buttonDivide_Click(object sender, EventArgs e) {
             Operation_Button_Click('/');
         }
 
-        private void dot_Click(object sender, EventArgs e) {
+        private void buttonDot_Click(object sender, EventArgs e) {
             Universal_Button_Click(".");
         }
 
-        private void clear_Click(object sender, EventArgs e) {
+        private void buttonClear_Click(object sender, EventArgs e) {
             Clear();
         }
+
+        private void buttonEquals_Click(object sender, EventArgs e) {
+            Equals();
+        }
+        #endregion buttons
 
         private void Operation_Button_Click(char oper){
             if (operList.Contains(textBox1.Text[0])) {
@@ -98,6 +99,22 @@ namespace Calculator {
                 this.textBox2.Text = input;
                 operation = oper;
                 input = string.Empty;
+            }
+            switch (oper) {
+                case '+':
+                    Task waitPlus = WaitSomeTime("button", "Plus");
+                    break;
+                case '-':
+                    Task waitMinus = WaitSomeTime("button", "Minus");
+                    break;
+                case '*':
+                    Task waitMultiply = WaitSomeTime("button", "Multiply");
+                    break;
+                case '/':
+                    Task waitDivide = WaitSomeTime("button", "Divide");
+                    break;
+                default:
+                    break;
             }
         }
         
@@ -118,10 +135,7 @@ namespace Calculator {
                 input += num;
                 this.textBox1.Text += input;
             }
-        }
-
-        private void equals_Click(object sender, EventArgs e) {
-            Equals();
+            Task wait = WaitSomeTime("button", num);
         }
 
         private void Clear() {
@@ -130,36 +144,48 @@ namespace Calculator {
             this.input = string.Empty;
             this.operand1 = string.Empty;
             this.operand2 = string.Empty;
+            Task wait = WaitSomeTime("button", "Clear");
+        }
+
+        public async Task WaitSomeTime(string button, string num) {
+            Button newButton = this.Controls.Find(button + num, true)[0] as Button;
+            newButton.Enabled = false;
+            await Task.Delay(50);
+            newButton.Enabled = true;
         }
 
         private void Equals() {
-            Console.WriteLine("Doing maths");
-            operand2 = input;
-            double num1, num2;
-            double.TryParse(operand1, out num1);
-            double.TryParse(operand2, out num2);
+            if (textBox2.TextLength > 0) {
+                Console.WriteLine("Doing maths");
+                operand2 = input;
+                double num1, num2;
+                double.TryParse(operand1, out num1);
+                double.TryParse(operand2, out num2);
 
-            if (operation == '+') {
-                result = num1 + num2;
-                textBox1.Text = result.ToString();
-            } else if (operation == '-') {
-                result = num1 - num2;
-                textBox1.Text = result.ToString();
-            } else if (operation == '*') {
-                result = num1 * num2;
-                textBox1.Text = result.ToString();
-            } else if (operation == '/') {
-                if (num2 != 0) {
-                    result = num1 / num2;
+                if (operation == '+') {
+                    result = num1 + num2;
                     textBox1.Text = result.ToString();
-                } else {
-                    textBox1.Text = "DIV/Zero!";
+                } else if (operation == '-') {
+                    result = num1 - num2;
+                    textBox1.Text = result.ToString();
+                } else if (operation == '*') {
+                    result = num1 * num2;
+                    textBox1.Text = result.ToString();
+                } else if (operation == '/') {
+                    if (num2 != 0) {
+                        result = num1 / num2;
+                        textBox1.Text = result.ToString();
+                    } else {
+                        textBox1.Text = "DIV/Zero!";
+                    }
                 }
+                textBox2.Text = "";
+                input = string.Empty;
+                this.operand1 = string.Empty;
+                this.operand2 = string.Empty;
             }
-            textBox2.Text = "";
-            input = string.Empty;
-            this.operand1 = string.Empty;
-            this.operand2 = string.Empty;
+            Task wait = WaitSomeTime("button", "Equals");
+            //nothing
         }
 
         private void Calculator_KeyPress(object sender, KeyPressEventArgs e) {
